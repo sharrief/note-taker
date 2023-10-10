@@ -11,5 +11,6 @@
   },
   "rules": {
     "react/prop-types": "off"
-  }
+  },
+  "ignorePatterns": ["stories/"]
 }
