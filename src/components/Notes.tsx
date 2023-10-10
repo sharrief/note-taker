@@ -1,34 +1,40 @@
-'use client'
+'use client';
+
 import React, { useContext } from 'react';
 import Link from 'next/link';
-import { Prisma } from '@prisma/client';
-import prisma from '@/util/db';
-import useTranslation from '@/app/i18n';
-import { LanguageContext } from '@/util/LanguageContext/client'
+import useTranslation from '@/app/i18n/client';
+import LanguageContext from '@/app/i18n/LanguageContext/client';
+import { GetNotesResult } from '@/app/hooks/getNotes';
 
 /**
- * The required props for {@link Notes}
+ * The required props for {@link Notes}.
  */
-type NoteProps = {
-  notes: Prisma.Result<typeof prisma.note, { include: { tag: true, } }, 'findMany'>,
+export type NoteProps = {
+  /** The array of notes to render. */
+  notes: GetNotesResult['notes'],
+  /** Whether this list of notes represents the first page.
+   * Disables the "previous" pagination button if so.
+   */
   firstPage: boolean,
+  /** The count of notes remaining. */
   remaining: number,
 } & Partial<NotePropsDefaults>;
 
 /** The optional props for {@link Notes} */
-type NotePropsDefaults = {
+export type NotePropsDefaults = {
+  /** The note id representing the starting cursor for the next page of notes. */
   next: number
 };
 
 /**
- * Renders a list of Notes
- * @component
+ * Renders a list of Notes, pagination buttons and a button to create a new note.
+ * @param {object} props
  */
-export default async function Notes({
+export default function Notes({
   notes, firstPage, remaining, next,
 }: NoteProps) {
   const lng = useContext(LanguageContext);
-  const { t } = await useTranslation(lng, 'notes');
+  const { t } = useTranslation(lng, 'notes');
 
   return (
     <div className="container mx-auto">

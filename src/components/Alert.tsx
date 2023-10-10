@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** The style variants of Alerts. Each variant has a corresponding icon. */
 export type AlertType = 'info' | 'warning' | 'error' | 'success';
 const icon: { [key in AlertType]: React.ReactNode } = {
   info: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
@@ -8,20 +9,32 @@ const icon: { [key in AlertType]: React.ReactNode } = {
   success: <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
 };
 
-type AlertProps = {} & Partial<AlertPropsDefaults>;
-type AlertPropsDefaults = {
+/**
+ * @interface
+ * Props for the Alert
+ */
+export interface AlertProps {
   alert: {
-    message: string,
-    type: AlertType,
+    /** The message to display in the Alert component */
+    message: string;
+    /** The type to determine the style of the alert.
+     * See {@link AlertType}
+     */
+    type: AlertType;
   }
-};
+}
 
+/**
+ * Renders an Alert component with the provided message and style variant.
+ * If no message is provided, null is rendered.
+ * @param {AlertProps} props
+ */
 export default function Alert({ alert }: AlertProps) {
   if (!alert) return null;
   const { message, type } = alert;
   if (!message) return null;
   return (
-    <div className={`alert alert-${type} col-span-3`}>
+    <div className={`alert {alert-${type}} col-span-3`} data-testid="alert">
       {icon[type]}
       <span>{message}</span>
     </div>

@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notes from '@/components/Notes';
+import getNotes from '@/app/hooks/getNotes';
 import Page from './page';
-import getNotes from './getNotes';
 
 // Arrange
 const notesProps: Parameters<typeof Notes>[0] = {
@@ -18,7 +18,7 @@ const notesProps: Parameters<typeof Notes>[0] = {
 jest.mock('@/components/Notes');
 const mockNotes = jest.mocked(Notes);
 
-jest.mock('./getNotes');
+jest.mock('@/app/hooks/getNotes');
 
 afterEach(() => {
   jest.resetAllMocks();

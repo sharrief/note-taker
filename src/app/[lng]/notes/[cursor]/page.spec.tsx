@@ -2,8 +2,8 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notes from '@/components/Notes';
 import { redirect } from 'next/navigation';
+import getNotes from '@/app/hooks/getNotes';
 import Page from './page';
-import getNotes from '../getNotes';
 
 // Arrange
 const notesProps: Parameters<typeof Notes>[0] = {
@@ -24,7 +24,7 @@ jest.mock('next/navigation', () => ({
   redirect: jest.fn().mockReturnValueOnce(null),
 }));
 
-jest.mock('../getNotes');
+jest.mock('@/app/hooks/getNotes');
 
 afterEach(() => {
   jest.resetAllMocks();

@@ -1,0 +1,8 @@
+{
+  "name": "Code Documentation",
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "exclude": ["**/*/*.spec.tsx","**/*/*.spec.ts","**/*/*.stories.tsx","src/stories/*"],
+  "tsconfig": "./tsconfig.json",
+  "out": "docs"
+}

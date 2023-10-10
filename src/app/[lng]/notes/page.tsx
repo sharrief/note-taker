@@ -1,16 +1,27 @@
 import React from 'react';
-import getNotes from '@/app/[lng]/notes/getNotes';
+import getNotes from '@/app/hooks/getNotes';
 import Notes from '@/components/Notes';
 
+/**
+ * @example
+ * ```tsx
+ * <NotesPage />
+ * ```
+ * Loads the notes from the api, and renders the {@link Notes}
+ * passing along the notes and the cursor.
+ *
+ * @param {object} props
+ */
 export default async function NotesPage() {
   const { notes, remaining } = await getNotes();
-  const nextCursor = remaining ? notes[notes.length - 1]?.id : undefined;
+  const next = remaining ? notes[notes.length - 1]?.id : undefined;
+
   return (
-      <Notes
-        remaining={remaining}
-        notes={notes}
-        next={nextCursor}
-        firstPage
-      />
+    <Notes
+      remaining={remaining}
+      notes={notes}
+      next={next}
+      firstPage
+    />
   );
 }

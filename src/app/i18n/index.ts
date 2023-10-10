@@ -13,6 +13,18 @@ const initI18next = async (lng: string, ns: string) => {
   return i18nInstance;
 };
 
+/**
+ * Hook that loads the specified local label files
+ * @param {string} lng The locale specifier
+ * @param {string} ns  The namespace/filename containing the desired labels
+ * @param {object} [options] Options passed through to the actual react-i18next useTranslation hook
+ * @returns {object} Object containing the function which returns the specified label identifier
+ * @example
+ * ```
+ * const { t } = useTranslation('en', 'labels');
+ * return <span>{t('helloWorld')}</span>;
+ * ```
+ */
 export default async function useTranslation(
   lng: string,
   ns: string,
