@@ -15,7 +15,6 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));
 }
 
-
 export default function RootLayout({
   children,
   params: { lng },
@@ -26,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang={lng}>
       <body className={inter.className}>
-          {children}
+        {children}
       </body>
     </html>
   );

@@ -1,0 +1,8 @@
+{
+  "heading": "yours notes",
+  "remaining": "there are {{ remaining }} more notes",
+  "noneRemaining": "no",
+  "newNote": "new note",
+  "prev": "previous",
+  "next": "next"
+}

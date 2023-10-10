@@ -2,7 +2,9 @@
   "draftNote": "unsaved note",
   "typeHere": "type here",
   "save": "save",
-  "cancel": "cancel",
-  "aria-cancelNote": "cancel and return to notes",
-  "aria-saveNote": "save this note"
+  "discard": "discard",
+  "aria-discardNote": "discard the draft and return to notes",
+  "aria-saveNote": "save this note",
+  "warn-minLength": "The note must contain at least {{min}} characters to be saved",
+  "warn-maxLength": "The note must be shorter than {{max}} characters to be saved"
 }
