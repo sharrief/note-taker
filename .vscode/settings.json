@@ -1,0 +1,11 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#4D1A3D",
+    "titleBar.activeBackground": "#6C2555",
+    "titleBar.activeForeground": "#FDF8FB"
+  },
+  "cSpell.words": [
+    "superjson",
+    "TRPC"
+  ]
+}

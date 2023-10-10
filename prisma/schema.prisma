@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model note {
+  id     Int    @id(map: "PK_96d0c172a4fba276b1bbed43058") @default(autoincrement())
+  text   String @db.VarChar(300)
+  userId Int?
+  user   user?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5b87d9d19127bd5d92026017a7b")
+  tag tag[]
+}
+
+model user {
+  id       Int     @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
+  username String  @db.VarChar
+  email    String  @db.VarChar
+  password String? @db.VarChar
+  salt     String? @db.VarChar
+  note     note[]
+  tag      tag[]
+}
+
+model tag {
+  id     Int   @id @default(autoincrement())
+  userId Int?
+  user   user? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  name String @db.VarChar(20)
+  note note[]
+}
