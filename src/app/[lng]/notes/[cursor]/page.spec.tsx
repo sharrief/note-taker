@@ -11,7 +11,7 @@ const notesProps: Parameters<typeof Notes>[0] = {
     id: 1,
     text: '1',
     userId: 1,
-    tag: [],
+    tags: [],
   }],
   firstPage: false,
   remaining: 1,

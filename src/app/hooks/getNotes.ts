@@ -7,7 +7,7 @@ import { Prisma } from '@prisma/client';
  */
 export interface GetNotesResult {
   notes: Prisma.noteGetPayload<{ include: {
-    tag: true
+    tags: true
   } }>[];
   remaining: number;
 }
@@ -25,7 +25,7 @@ export default async function getNotes(cursor?: number): Promise<GetNotesResult>
       id: cursor,
     },
     include: {
-      tag: true,
+      tags: true,
     },
     where: {
       userId: 1,

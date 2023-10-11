@@ -12,7 +12,7 @@ model note {
   text   String @db.VarChar(300)
   userId Int?
   user   user?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5b87d9d19127bd5d92026017a7b")
-  tag tag[]
+  tags tag[]
 }
 
 model user {

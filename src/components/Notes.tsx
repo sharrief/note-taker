@@ -45,7 +45,7 @@ export default function Notes({
         {notes && (
         <>
           {notes
-            .map(({ id, text, tag: tags }) => (
+            .map(({ id, text, tags }) => (
               <div
                 className="btn bg-yellow-200 content-between text-left text-base lowercase justify-start cursor-pointer text-black rounded px-2 overflow-hidden"
                 style={{ height: '150px' }}
