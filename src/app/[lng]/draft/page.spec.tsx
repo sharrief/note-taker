@@ -141,13 +141,17 @@ describe('pressing save with valid note text', () => {
     await act(async () => sendSaveResponse());
     expect(mockReplace).toHaveBeenCalledWith('/notes');
   });
-  it('clears the note text after saving', async () => {
+  it('shows the success message after successful saving', async () => {
     await act(async () => sendSaveResponse());
-    expect(textArea).toHaveTextContent('');
+    const alert = screen.getByTestId('alert');
+    expect(alert).toBeInTheDocument();
+    expect(alert.classList).toContain('alert-success');
   });
-  it('enables the buttons after successful saving', async () => {
+  it('disables the controls after successful saving', async () => {
     await act(async () => sendSaveResponse());
-    expect(discardButton).toBeEnabled();
+    expect(discardButton).toBeDisabled();
+    expect(saveButton).toBeDisabled();
+    expect(textArea).toBeDisabled();
   });
 });
 

@@ -6,5 +6,6 @@
   "aria-discardNote": "descartar el borrador y volver a notas",
   "aria-saveNote": "guarda esta nota",
   "warn-minLength": "La nota debe contener al menos {{min}} caracteres para ser guardada.",
-  "warn-maxLength": "La nota debe tener menos de {{max}} caracteres para guardarse"
+  "warn-maxLength": "La nota debe tener menos de {{max}} caracteres para guardarse",
+  "save-success": "Guardado exitosamente"
 }

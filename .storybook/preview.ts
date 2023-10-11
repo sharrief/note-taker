@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react";
 import i18n from './i18next';
-import '../.next/static/css/app/[lng]/layout.css'
+import '../src/app/globals.css'
 
 const preview: Preview = {
   parameters: {

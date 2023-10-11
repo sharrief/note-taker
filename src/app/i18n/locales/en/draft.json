@@ -6,5 +6,6 @@
   "aria-discardNote": "discard the draft and return to notes",
   "aria-saveNote": "save this note",
   "warn-minLength": "The note must contain at least {{min}} characters to be saved",
-  "warn-maxLength": "The note must be shorter than {{max}} characters to be saved"
+  "warn-maxLength": "The note must be shorter than {{max}} characters to be saved",
+  "save-success": "Saved successfully"
 }

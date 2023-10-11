@@ -43,6 +43,7 @@ export default function useDraftNote(
   warnMinLengthLabel: string,
   max: number,
   warnMaxLengthLabel: string,
+  saveSuccess: string,
 ): DraftState {
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
@@ -73,14 +74,16 @@ export default function useDraftNote(
     setBusy(true);
     const { error } = await api.save(text);
     if (error) {
+      setBusy(false);
       setAlertMessage(error);
       setAlertType('error');
     } else {
-      setText('');
-      resetAlert();
+      // set to busy while navigating back to notes
+      setBusy(true);
+      setAlertMessage(saveSuccess);
+      setAlertType('success');
       router.replace('/notes');
     }
-    setBusy(false);
   };
 
   const onDiscard = () => {
