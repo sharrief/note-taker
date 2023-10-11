@@ -165,9 +165,9 @@ describe('when the api has an error saving', () => {
     await userEvent.type(textArea, someText);
     await userEvent.click(saveButton);
     // Assert
-    expect(await screen.findByText(error)).toBeInTheDocument();
     expect(saveButton).toBeEnabled();
     expect(discardButton).toBeEnabled();
+    expect(await screen.findByText(error)).toBeInTheDocument();
   });
 });
 // #endregion

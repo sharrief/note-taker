@@ -27,10 +27,10 @@ export interface DraftState {
   /** Whether the hook is busy waiting on an async function call */
   busy: boolean;
   /** An object containing an optional error message received from the saving api */
-  alert: AlertProps['alert'];
+  alertMessage: AlertProps['message'];
+  /** An object containing an optional error message received from the saving api */
+  alertType: AlertProps['type'];
 }
-
-const defaultAlert: AlertProps['alert'] = { message: '', type: 'info' };
 
 /**
  * Hook for managing the state of a draft note.
@@ -46,7 +46,12 @@ export default function useDraftNote(
 ): DraftState {
   const [text, setText] = useState('');
   const [busy, setBusy] = useState(false);
-  const [alert, setAlert] = useState<AlertProps['alert']>(defaultAlert);
+  const [alertMessage, setAlertMessage] = useState<AlertProps['message']>('');
+  const [alertType, setAlertType] = useState<AlertProps['type']>('info');
+  const resetAlert = () => {
+    setAlertMessage('');
+    setAlertType('info');
+  };
   const router = useRouter();
   const validLength = text.length >= min && text.length <= max;
   const canSave = validLength && !!text && !busy;
@@ -55,16 +60,12 @@ export default function useDraftNote(
 
   useEffect(() => {
     if (text.length > 0 && text.length < min) {
-      setAlert({
-        message: warnMinLengthLabel,
-        type: 'info',
-      });
+      setAlertMessage(warnMinLengthLabel);
+      setAlertType('info');
     } else if (text.length > max) {
-      setAlert({
-        message: warnMaxLengthLabel,
-        type: 'warning',
-      });
-    } else setAlert(defaultAlert);
+      setAlertMessage(warnMaxLengthLabel);
+      setAlertType('warning');
+    } else resetAlert();
   }, [text, min, warnMinLengthLabel, max, warnMaxLengthLabel]);
 
   const onSave = async () => {
@@ -72,9 +73,11 @@ export default function useDraftNote(
     setBusy(true);
     const { error } = await api.save(text);
     if (error) {
-      setAlert({ message: error, type: 'error' });
+      setAlertMessage(error);
+      setAlertType('error');
     } else {
       setText('');
+      resetAlert();
       router.replace('/notes');
     }
     setBusy(false);
@@ -87,6 +90,6 @@ export default function useDraftNote(
   };
 
   return {
-    text, setText, busy, alert, canSave, onSave, canDiscard, onDiscard, canType,
+    text, setText, busy, alertType, alertMessage, canSave, onSave, canDiscard, onDiscard, canType,
   };
 }

@@ -1,15 +1,16 @@
 {
   "name": "note-taker",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "npx jest",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typeCheck": "npx tsc",
-    "showDB": "npx prisma studio",
+    "type-check": "npx tsc",
+    "pre-commit": "npm run lint && npm run type-check && npm run test && npx typedoc",
+    "studio": "npx prisma studio",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

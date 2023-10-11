@@ -14,27 +14,29 @@ const icon: { [key in AlertType]: React.ReactNode } = {
  * Props for the Alert
  */
 export interface AlertProps {
-  alert: {
-    /** The message to display in the Alert component */
-    message: string;
-    /** The type to determine the style of the alert.
-     * See {@link AlertType}
-     */
-    type: AlertType;
-  }
+  /** The message to display in the Alert component */
+  message: string;
+  /** The type to determine the style of the alert.
+   * See {@link AlertType}
+   */
+  type: AlertType;
 }
-
 /**
  * Renders an Alert component with the provided message and style variant.
  * If no message is provided, null is rendered.
  * @param {AlertProps} props
- */
-export default function Alert({ alert }: AlertProps) {
-  if (!alert) return null;
-  const { message, type } = alert;
+*/
+export default function Alert({ message, type }: AlertProps) {
   if (!message) return null;
+
+  /** NextJS won't bundle all the variant classes if they aren't spelled out.
+   * A template literal `alert-${type}` doesn't work. */
+  let alertClass = 'alert-info';
+  if (type === 'success') alertClass = 'alert-success';
+  if (type === 'error') alertClass = 'alert-error';
+  if (type === 'warning') alertClass = 'alert-warning';
   return (
-    <div className={`alert {alert-${type}} col-span-3`} data-testid="alert">
+    <div className={`alert ${alertClass} col-span-3`} data-testid="alert">
       {icon[type]}
       <span>{message}</span>
     </div>

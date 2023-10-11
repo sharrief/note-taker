@@ -31,7 +31,7 @@ export default function DraftNote() {
   const lng = useContext(LanguageContext);
   const { t } = useTranslation(lng, 'draft');
   const {
-    text, setText, busy, alert,
+    text, setText, busy, alertType, alertMessage,
     canSave, onSave, canDiscard, onDiscard, canType,
   } = useDraftNote(min, t('warn-minLength', { min }), max, t('warn-maxLength', { max }));
   return (
@@ -67,7 +67,7 @@ export default function DraftNote() {
           </button>
         </div>
         <div className="col-span-4 mx-auto">
-          <Alert alert={alert} />
+          <Alert message={alertMessage} type={alertType} />
         </div>
       </article>
     </div>
