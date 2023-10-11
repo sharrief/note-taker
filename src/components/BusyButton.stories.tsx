@@ -4,6 +4,7 @@ import BusyButton from './BusyButton';
 const meta: Meta<typeof BusyButton> = {
   title: 'BusyButton',
   component: BusyButton,
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -17,5 +18,15 @@ export const Initial: Story = {
     disabled: false,
     variant: '',
     busy: false,
+  },
+};
+
+export const Busy: Story = {
+  args: {
+    text: 'Loading',
+    ariaLabel: 'Pressing here will click the button',
+    disabled: true,
+    variant: '',
+    busy: true,
   },
 };

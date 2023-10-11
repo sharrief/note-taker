@@ -4,6 +4,7 @@ import TextArea from './TextArea';
 const meta: Meta<typeof TextArea> = {
   title: 'TextArea',
   component: TextArea,
+  tags: ['autodocs'],
 };
 
 export default meta;

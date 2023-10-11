@@ -9,6 +9,7 @@ const meta: Meta<typeof DraftNote> = {
     onSave: { action: true },
     onDiscard: { action: true },
   },
+  tags: ['autodocs'],
 };
 
 export default meta;

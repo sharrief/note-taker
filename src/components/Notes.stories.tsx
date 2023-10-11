@@ -4,6 +4,7 @@ import Notes from './Notes';
 const meta: Meta<typeof Notes> = {
   title: 'Notes',
   component: Notes,
+  tags: ['autodocs'],
 };
 
 export default meta;
