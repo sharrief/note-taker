@@ -14,7 +14,7 @@ const initI18next = async (lng: string, ns: string) => {
 };
 
 /**
- * Hook that loads the specified local label files
+ * Function that loads the specified local label files for the server
  * @param {string} lng The locale specifier
  * @param {string} ns  The namespace/filename containing the desired labels
  * @param {object} [options] Options passed through to the actual react-i18next useTranslation hook
@@ -25,7 +25,7 @@ const initI18next = async (lng: string, ns: string) => {
  * return <span>{t('helloWorld')}</span>;
  * ```
  */
-export default async function useTranslation(
+export default async function getTranslator(
   lng: string,
   ns: string,
   options: { keyPrefix?: string } = {},

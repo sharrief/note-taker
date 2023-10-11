@@ -1,22 +1,19 @@
-import { test } from './index';
+import post from '@/util/post';
+import { save } from './index';
 
-global.fetch = jest.fn(async () => ({
-  json: () => ({
-  }),
-}) as any);
+jest.mock('@/util/post');
+const mockPost = jest.mocked(post);
 
-describe('post', () => {
-  const { post } = test;
-  it('calls fetch', async () => {
-    const body = { test: 'test' };
-    await post('/api/test', body);
-    expect(global.fetch).toHaveBeenCalledWith(
-      '/api/test',
-      expect.objectContaining({
-        method: 'POST',
-        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify(body),
-      }),
-    );
+describe('save', () => {
+  it('returns errors', async () => {
+    // Arrange
+    const err = 'Internal error';
+    const res = new Response(undefined, { status: 500, statusText: err });
+    mockPost.mockImplementation(async () => res);
+    const text = 'sample note text';
+    // Act
+    const { error } = await save(text);
+    // Assert
+    expect(error).toBe(err);
   });
 });
