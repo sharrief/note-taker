@@ -1,5 +1,6 @@
 {
   "heading": "your notes",
+  "noNotes": "you don't have any notes",
   "remaining": "there are {{ remaining }} more notes",
   "noneRemaining": "no",
   "newNote": "new note",

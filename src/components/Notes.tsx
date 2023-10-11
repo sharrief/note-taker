@@ -5,6 +5,7 @@ import Link from 'next/link';
 import useTranslation from '@/app/i18n/client';
 import LanguageContext from '@/app/i18n/LanguageContext/client';
 import { GetNotesResult } from '@/app/hooks/getNotes';
+import Alert from './Alert';
 
 /**
  * The required props for {@link Notes}.
@@ -33,7 +34,7 @@ export type NotePropsDefaults = {
 export default function Notes({
   notes, firstPage, remaining, next,
 }: NoteProps) {
-  const lng = useContext(LanguageContext);
+  const lng = useContext(LanguageContext); // TODO move labels to props
   const { t } = useTranslation(lng, 'notes');
 
   return (
@@ -42,6 +43,7 @@ export default function Notes({
         <div className="mx-auto col-span-3">
           <h1 className="first-letter:capitalize">{t('heading')}</h1>
         </div>
+        {notes.length < 1 && <Alert message={t('noNotes')} type="info" />}
         {notes && (
         <>
           {notes

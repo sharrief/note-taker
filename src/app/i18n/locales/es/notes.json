@@ -1,8 +1,9 @@
 {
-  "heading": "yours notes",
-  "remaining": "there are {{ remaining }} more notes",
+  "heading": "tus notas",
+  "noNotes": "no tienes ninguna nota.",
+  "remaining": "hay {{ remaining }} notas más",
   "noneRemaining": "no",
-  "newNote": "new note",
-  "prev": "previous",
-  "next": "next"
+  "newNote": "nueva nota",
+  "prev": "anterior",
+  "next": "siguiente"
 }
