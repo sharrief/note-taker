@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Notes from '@/components/Notes';
 import { redirect } from 'next/navigation';
-import getNotes from '@/app/hooks/getNotes';
+import getNotes from '@/app/[lng]/notes/getNotes';
 import Page from './page';
 
 // Arrange
@@ -24,7 +24,7 @@ jest.mock('next/navigation', () => ({
   redirect: jest.fn().mockReturnValueOnce(null),
 }));
 
-jest.mock('@/app/hooks/getNotes');
+jest.mock('@/app/[lng]/notes/getNotes');
 
 afterEach(() => {
   jest.resetAllMocks();

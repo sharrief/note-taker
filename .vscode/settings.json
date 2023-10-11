@@ -7,5 +7,6 @@
   "cSpell.words": [
     "superjson",
     "TRPC"
-  ]
+  ],
+  "todo-tree.tree.scanMode": "workspace only"
 }

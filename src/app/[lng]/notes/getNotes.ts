@@ -32,10 +32,9 @@ export default async function getNotes(cursor?: number): Promise<GetNotesResult>
     },
     orderBy: { id: 'asc' },
   });
-  const lastId = notes[notes.length - 1].id;
   const remaining = await prisma.note.count({
     where: {
-      id: lastId ? { gt: notes[notes.length - 1].id } : undefined,
+      id: notes?.length > 0 ? { gt: notes[notes.length - 1].id } : undefined,
       userId: 1,
     },
     orderBy: { id: 'asc' },

@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import Link from 'next/link';
 import useTranslation from '@/app/i18n/client';
 import LanguageContext from '@/app/i18n/LanguageContext/client';
-import { GetNotesResult } from '@/app/hooks/getNotes';
+import { GetNotesResult } from '@/app/[lng]/notes/getNotes';
 import Alert from './Alert';
 
 /**

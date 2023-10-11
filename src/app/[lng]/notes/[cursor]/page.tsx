@@ -2,7 +2,7 @@ import React from 'react';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
 import Notes from '@/components/Notes';
-import getNotes from '@/app/hooks/getNotes';
+import getNotes from '@/app/[lng]/notes/getNotes';
 
 /**
  * The props for NotesCursorPage

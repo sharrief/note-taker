@@ -1,5 +1,5 @@
 import React from 'react';
-import getNotes from '@/app/hooks/getNotes';
+import getNotes from '@/app/[lng]/notes/getNotes';
 import Notes from '@/components/Notes';
 
 /**
