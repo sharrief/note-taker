@@ -3,6 +3,12 @@ import getTranslator from '@/app/i18n';
 import prisma from '@/util/db';
 import { env } from 'process';
 
+/**
+ *
+ * @param search The text to search notes for
+ * @returns {object} Object containing the notes array,
+ * with ranking information included in each note
+ */
 export default async function getNotesBySearch(search: string) {
   if (typeof search !== 'string') {
     const { t } = await getTranslator('en', 'errors');

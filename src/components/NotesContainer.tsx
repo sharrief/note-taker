@@ -3,12 +3,15 @@
 import React, { useContext } from 'react';
 import useTranslation from '@/app/i18n/client';
 import LanguageContext from '@/app/i18n/LanguageContext/client';
+// eslint-disable-next-line import/no-named-as-default
 import NotesContext from '@/app/contexts/NotesContext';
 import Notes from '@/components/Notes';
 import SearchContext from '@/app/contexts/SearchContext';
 import SearchBar from '@/components/SearchBar';
 import useNotesSearch from '@/app/hooks/useNotesSearch';
 
+/** The container that loads the contexts for Notes relates components
+ */
 export default function NotesContainer() {
   const lng = useContext(LanguageContext);
   const { t } = useTranslation(lng, 'notes');
