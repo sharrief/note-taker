@@ -1,6 +1,6 @@
 import prisma from '@/util/db';
 import { Prisma } from '@prisma/client';
-import getNotes from './getNotes';
+import getNotesByCursor from './getNotesByCursor';
 
 // Arrange
 jest.mock('@/util/db', () => ({
@@ -45,14 +45,14 @@ describe('when getNotes is called', () => {
     mockPrisma.note.findMany.mockResolvedValueOnce([]);
     mockPrisma.note.count.mockResolvedValueOnce(0);
     // ACT
-    const { notes, remaining } = await getNotes();
+    const { notes, remaining } = await getNotesByCursor();
     // Assert
     expect(notes.length).toBe(0);
     expect(remaining).toBe(0);
   });
   it('includes the tags in the notes', async () => {
     // Act
-    const { notes } = await getNotes();
+    const { notes } = await getNotesByCursor();
     // Assert
     expect(mockPrisma.note.findMany).toHaveBeenCalledWith(expect.objectContaining({
       include: expect.objectContaining({ tags: true }),
@@ -61,13 +61,12 @@ describe('when getNotes is called', () => {
   });
   it('without a cursor, it returns all notes', async () => {
     // Act
-    const { notes } = await getNotes();
+    const { notes } = await getNotesByCursor();
     // Assert
     expect(mockPrisma.note.findMany).toHaveBeenCalledWith(expect.objectContaining({
       take: 6,
       skip: 0,
       cursor: undefined,
-      where: expect.objectContaining({ userId: 1 }),
       orderBy: expect.objectContaining({ id: 'asc' }),
     }));
     expect(notes).toEqual(mockNotesData);
@@ -75,25 +74,23 @@ describe('when getNotes is called', () => {
   it('with a cursor, it returns notes from that cursor and later', async () => {
     const cursor = 3;
     // Act
-    const { notes } = await getNotes(cursor);
+    const { notes } = await getNotesByCursor(cursor);
     // Assert
     expect(mockPrisma.note.findMany).toHaveBeenCalledWith(expect.objectContaining({
       take: 6,
       skip: 1,
       cursor: expect.objectContaining({ id: cursor }),
-      where: expect.objectContaining({ userId: 1 }),
       orderBy: expect.objectContaining({ id: 'asc' }),
     }));
     expect(notes).toEqual(mockNotesData);
   });
   it('returns the number of notes in later pages', async () => {
     // Act
-    const { remaining } = await getNotes();
+    const { remaining } = await getNotesByCursor();
     // Assert
     expect(mockPrisma.note.count).toHaveBeenCalledWith(expect.objectContaining({
       where: expect.objectContaining({
         id: expect.objectContaining({ gt: mockNotesData[mockNotesData.length - 1].id }),
-        userId: 1,
       }),
       orderBy: expect.objectContaining({
         id: 'asc',

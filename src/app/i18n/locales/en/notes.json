@@ -5,5 +5,8 @@
   "noneRemaining": "no",
   "newNote": "new note",
   "prev": "previous",
-  "next": "next"
+  "next": "next",
+  "searchNotes": "search your notes",
+  "search": "search",
+  "searching": "searching"
 }

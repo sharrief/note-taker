@@ -1,3 +1,4 @@
 {
-  "invalid-note": "Invalid note text was provided. Note text must contain only characters."
+  "invalid-note": "Invalid note text was provided. Note text must contain only characters.",
+  "invalid-search": "Invalid search query was provided. The search must contain only characters"
 }

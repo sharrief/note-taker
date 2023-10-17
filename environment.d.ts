@@ -11,6 +11,7 @@ declare global {
       NEXT_PUBLIC_SERVER_HOST: string;
       OPTION_NOTE_MIN_LENGTH: string;
       OPTION_NOTE_MAX_LENGTH: string;
+      OPTION_NOTES_PER_PAGE: string;
     }
   }
 }

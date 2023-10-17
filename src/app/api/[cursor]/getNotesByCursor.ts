@@ -1,14 +1,13 @@
 import prisma from '@/util/db';
 import { Prisma } from '@prisma/client';
+import { env } from 'process';
 
-/**
- * @property {array} notes The array of notes returned by the query
- * @property {number} remaining The number of remaining notes in later pages
- */
 export interface GetNotesResult {
+  /** The array of notes returned by the query */
   notes: Prisma.noteGetPayload<{ include: {
     tags: true
   } }>[];
+  /** The number of remaining notes in later pages */
   remaining: number;
 }
 
@@ -17,9 +16,9 @@ export interface GetNotesResult {
  * @param {number} cursor The note id from which to load the next page
  * @returns {object} {@link GetNotesResult}
  */
-export default async function getNotes(cursor?: number): Promise<GetNotesResult> {
+export default async function getNotesByCursor(cursor?: number): Promise<GetNotesResult> {
   const notes = await prisma.note.findMany({
-    take: 6,
+    take: +env.OPTION_NOTES_PER_PAGE,
     skip: cursor == null ? 0 : 1,
     cursor: cursor == null ? undefined : {
       id: cursor,
@@ -27,15 +26,11 @@ export default async function getNotes(cursor?: number): Promise<GetNotesResult>
     include: {
       tags: true,
     },
-    where: {
-      userId: 1,
-    },
     orderBy: { id: 'asc' },
   });
   const remaining = await prisma.note.count({
     where: {
       id: notes?.length > 0 ? { gt: notes[notes.length - 1].id } : undefined,
-      userId: 1,
     },
     orderBy: { id: 'asc' },
   });

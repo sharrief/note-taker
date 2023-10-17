@@ -1,6 +1,8 @@
 import React from 'react';
-import getNotes from '@/app/[lng]/notes/getNotes';
-import Notes from '@/components/Notes';
+import getNotesByCursor from '@/app/api/[cursor]/getNotesByCursor';
+import NotesContainer from '@/components/NotesContainer';
+import NotesContext from '@/app/contexts/NotesContext';
+import SearchContext from '@/app/contexts/SearchContext';
 
 /**
  * @example
@@ -13,15 +15,14 @@ import Notes from '@/components/Notes';
  * @param {object} props
  */
 export default async function NotesPage() {
-  const { notes, remaining } = await getNotes();
-  const next = remaining ? notes[notes.length - 1]?.id : undefined;
-
+  const { notes, remaining } = await getNotesByCursor();
   return (
-    <Notes
-      remaining={remaining}
-      notes={notes}
-      next={next}
-      firstPage
-    />
+    /** This page is a server component so notes & remaining don't change */
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <NotesContext.Provider value={{ notes, remaining }}>
+      <SearchContext.Provider value="">
+        <NotesContainer />
+      </SearchContext.Provider>
+    </NotesContext.Provider>
   );
 }

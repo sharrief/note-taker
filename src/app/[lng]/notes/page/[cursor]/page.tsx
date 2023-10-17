@@ -1,8 +1,9 @@
 import React from 'react';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
-import Notes from '@/components/Notes';
-import getNotes from '@/app/[lng]/notes/getNotes';
+import getNotesByCursor from '@/app/api/[cursor]/getNotesByCursor';
+import NotesContainer from '@/components/NotesContainer';
+import NotesContext from '@/app/contexts/NotesContext';
 
 /**
  * The props for NotesCursorPage
@@ -41,14 +42,12 @@ export default async function NotesCursorPage(
     return redirect('/notes');
   }
   const { data: cursor } = parsedInput;
-  const { notes, remaining } = await getNotes(cursor);
-  const nextCursor = remaining ? notes[notes.length - 1]?.id : undefined;
+  const notesData = await getNotesByCursor(cursor);
   return (
-    <Notes
-      remaining={remaining}
-      notes={notes}
-      next={nextCursor}
-      firstPage={false}
-    />
+    /** This page is a server component so notes & remaining don't change */
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
+    <NotesContext.Provider value={notesData}>
+      <NotesContainer />
+    </NotesContext.Provider>
   );
 }

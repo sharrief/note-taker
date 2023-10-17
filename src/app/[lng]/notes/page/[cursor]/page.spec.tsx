@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { redirect } from 'next/navigation';
 import getNotesByCursor from '@/app/api/[cursor]/getNotesByCursor';
 import NotesContext from '@/app/contexts/NotesContext';
 import NotesContainer from '@/components/NotesContainer';
@@ -7,7 +8,12 @@ import Page from './page';
 
 // Arrange
 jest.mock('@/components/NotesContainer');
-const mockNotes = jest.mocked(NotesContainer);
+const mockNotesContainer = jest.mocked(NotesContainer);
+
+const mockRedirect = jest.mocked(redirect);
+jest.mock('next/navigation', () => ({
+  redirect: jest.fn().mockReturnValueOnce(null),
+}));
 
 jest.mock('@/app/api/[cursor]/getNotesByCursor');
 jest.mock('@/app/contexts/NotesContext', () => ({
@@ -21,7 +27,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-describe('<NotesPage />', () => {
+describe('<NotesCursorPage />', () => {
   it('should render the Notes component', async () => {
     // Arrange
     const notesData = {
@@ -36,12 +42,20 @@ describe('<NotesPage />', () => {
     jest.mocked(getNotesByCursor)
       .mockImplementationOnce(async () => notesData);
     // Act
-    const page = await Page();
+    const page = await Page({ params: { cursor: '' } });
     render(page);
     // Assert
     expect(mockNotesContextProvider).toHaveBeenCalledWith(expect.objectContaining({
       value: expect.objectContaining(notesData),
     }), expect.anything());
-    expect(mockNotes).toHaveBeenCalled();
+    expect(mockNotesContainer).toHaveBeenCalled();
+  });
+  it('should redirect to /notes if an invalid cursor is provided', async () => {
+    // Act
+    const page = await Page({ params: { cursor: 'invalid' } });
+    render(page);
+    // Assert
+    expect(mockRedirect).toHaveBeenCalledWith('/notes');
+    expect(mockNotesContextProvider).not.toHaveBeenCalled();
   });
 });
