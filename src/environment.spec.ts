@@ -1,7 +1,7 @@
 import { env } from 'process';
 
-const minLength = +env.OPTION_NOTE_MIN_LENGTH;
-const maxLength = +env.OPTION_NOTE_MAX_LENGTH;
+const minLength = +env.NEXT_PUBLIC_OPTION_NOTE_MIN_LENGTH;
+const maxLength = +env.NEXT_PUBLIC_OPTION_NOTE_MAX_LENGTH;
 
 describe('the environment', () => {
   it('has a var named OPTION_NOTE_MIN_LENGTH set to an integer', () => {

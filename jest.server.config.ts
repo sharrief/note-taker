@@ -1,4 +1,5 @@
 import nextJest from 'next/jest';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { pathsToModuleNameMapper } from 'ts-jest';
 import type { Config } from 'jest';
 import { compilerOptions } from './tsconfig.json';

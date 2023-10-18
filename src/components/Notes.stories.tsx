@@ -23,19 +23,19 @@ export const OnePage: Story = {
   args: {
     notes: [
       {
-        id: 1, text: 'first note', userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
+        id: 1, text: 'first note', text_json: 'first note', userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
       },
       {
-        id: 2, text: 'second note', userId: 1, tags: [],
+        id: 2, text: 'second note', text_json: 'second note', userId: 1, tags: [],
       },
       {
-        id: 3, text: 'third note', userId: 1, tags: [],
+        id: 3, text: 'third note', text_json: 'third note', userId: 1, tags: [],
       },
       {
-        id: 4, text: 'fourth note', userId: 1, tags: [],
+        id: 4, text: 'fourth note', text_json: 'fourth note', userId: 1, tags: [],
       },
       {
-        id: 5, text: 'fifth note', userId: 1, tags: [],
+        id: 5, text: 'fifth note', text_json: 'fifth note', userId: 1, tags: [],
       },
     ],
     firstPage: true,
@@ -47,19 +47,19 @@ export const LaterPage: Story = {
   args: {
     notes: [
       {
-        id: 1, text: 'first note', userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
+        id: 1, text: 'first note', text_json: 'first note', userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
       },
       {
-        id: 2, text: 'second note', userId: 1, tags: [],
+        id: 2, text: 'second note', text_json: 'second note', userId: 1, tags: [],
       },
       {
-        id: 3, text: 'third note', userId: 1, tags: [],
+        id: 3, text: 'third note', text_json: 'third note', userId: 1, tags: [],
       },
       {
-        id: 4, text: 'fourth note', userId: 1, tags: [],
+        id: 4, text: 'fourth note', text_json: 'fourth note', userId: 1, tags: [],
       },
       {
-        id: 5, text: 'fifth note', userId: 1, tags: [],
+        id: 5, text: 'fifth note', text_json: 'fifth note', userId: 1, tags: [],
       },
     ],
     firstPage: false,

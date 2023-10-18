@@ -1,12 +1,11 @@
 import prisma from '@/util/db';
 import { Prisma } from '@prisma/client';
-import { env } from 'process';
 
 export interface GetNotesResult {
   /** The array of notes returned by the query */
-  notes: Prisma.noteGetPayload<{ include: {
+  notes:({ text_json: string } & Prisma.noteGetPayload<{ include: {
     tags: true
-  } }>[];
+  } }>)[];
   /** The number of remaining notes in later pages */
   remaining: number;
 }
@@ -18,7 +17,7 @@ export interface GetNotesResult {
  */
 export default async function getNotesByCursor(cursor?: number): Promise<GetNotesResult> {
   const notes = await prisma.note.findMany({
-    take: +env.OPTION_NOTES_PER_PAGE,
+    take: +process.env.NEXT_PUBLIC_OPTION_NOTES_PER_PAGE,
     skip: cursor == null ? 0 : 1,
     cursor: cursor == null ? undefined : {
       id: cursor,
@@ -34,5 +33,5 @@ export default async function getNotesByCursor(cursor?: number): Promise<GetNote
     },
     orderBy: { id: 'asc' },
   });
-  return { notes, remaining };
+  return { notes: notes.map((n) => ({ ...n, text_json: JSON.stringify(n.text_json) })), remaining };
 }

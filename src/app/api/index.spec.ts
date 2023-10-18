@@ -12,7 +12,7 @@ describe('save', () => {
     mockPost.mockImplementation(async () => res);
     const text = 'sample note text';
     // Act
-    const { error } = await save(text);
+    const { error } = await save(text, text);
     // Assert
     expect(error).toBe(err);
   });

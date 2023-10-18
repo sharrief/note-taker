@@ -12,11 +12,11 @@ jest.mock('@/util/db', () => ({
 }));
 const mockPrisma = jest.mocked(prisma);
 
-const minLength = +env.OPTION_NOTE_MIN_LENGTH;
-const maxLength = +env.OPTION_NOTE_MAX_LENGTH;
+const minLength = +env.NEXT_PUBLIC_OPTION_NOTE_MIN_LENGTH;
+const maxLength = +env.NEXT_PUBLIC_OPTION_NOTE_MAX_LENGTH;
 const genText = (length: number) => (new Array(Math.floor(length)).fill('x').join(''));
 const getRequest = (text: any) => ({
-  json: async () => (text == null ? {} : { text }),
+  json: async () => (text == null ? {} : { text, text_json: JSON.stringify({ text }) }),
 }) as unknown as NextRequest;
 jest.mock('next/server');
 const mockResponseJson = jest.spyOn(NextResponse, 'json');

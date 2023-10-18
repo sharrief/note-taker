@@ -19,7 +19,7 @@ describe('getNotesBySearch', () => {
 
   it('returns matching rows from the database', async () => {
     // Act
-    const rows = await getNotesBySearch('go');
+    const rows = await getNotesBySearch('one');
     // Assert
     expect(rows).toHaveLength(2);
     expect(rows[0]).toHaveProperty('id');
@@ -27,6 +27,6 @@ describe('getNotesBySearch', () => {
     expect(rows[0]).toHaveProperty('text_tsvector');
     expect(rows[0]).toHaveProperty('text');
     expect(rows[0].rank).toBeGreaterThanOrEqual(rows[1].rank);
-    expect(rows.length).toBeLessThanOrEqual(+env.OPTION_NOTES_PER_PAGE);
+    expect(rows.length).toBeLessThanOrEqual(+env.NEXT_PUBLIC_OPTION_NOTES_PER_PAGE);
   });
 });

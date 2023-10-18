@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import getNotesByCursor from '@/app/api/[cursor]/getNotesByCursor';
+
 import NotesContext from '@/app/contexts/NotesContext';
 import NotesContainer from '@/components/NotesContainer';
 import Page from './page';
@@ -28,6 +29,7 @@ describe('<NotesPage />', () => {
       notes: [{
         id: 1,
         text: '1',
+        text_json: '',
         userId: 1,
         tags: [],
       }],

@@ -9,9 +9,9 @@ declare global {
       POSTGRES_PASSWORD: string;
       POSTGRES_DB: string;
       NEXT_PUBLIC_SERVER_HOST: string;
-      OPTION_NOTE_MIN_LENGTH: string;
-      OPTION_NOTE_MAX_LENGTH: string;
-      OPTION_NOTES_PER_PAGE: string;
+      NEXT_PUBLIC_OPTION_NOTE_MIN_LENGTH: string;
+      NEXT_PUBLIC_OPTION_NOTE_MAX_LENGTH: string;
+      NEXT_PUBLIC_OPTION_NOTES_PER_PAGE: string;
     }
   }
 }

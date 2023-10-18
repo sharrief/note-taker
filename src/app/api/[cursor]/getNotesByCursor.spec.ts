@@ -14,19 +14,19 @@ const mockNotesData: Prisma.noteGetPayload<{ include: {
   tags: true
 } }>[] = [
   {
-    id: 1, text: 'first note', userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
+    id: 1, text: 'first note', text_json: null, userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
   },
   {
-    id: 2, text: 'second note', userId: 1, tags: [],
+    id: 2, text: 'second note', text_json: null, userId: 1, tags: [],
   },
   {
-    id: 3, text: 'third note', userId: 1, tags: [],
+    id: 3, text: 'third note', text_json: null, userId: 1, tags: [],
   },
   {
-    id: 4, text: 'fourth note', userId: 1, tags: [],
+    id: 4, text: 'fourth note', text_json: null, userId: 1, tags: [],
   },
   {
-    id: 5, text: 'fifth note', userId: 1, tags: [],
+    id: 5, text: 'fifth note', text_json: null, userId: 1, tags: [],
   },
 ];
 const mockPrisma = jest.mocked(prisma);
@@ -69,7 +69,7 @@ describe('when getNotes is called', () => {
       cursor: undefined,
       orderBy: expect.objectContaining({ id: 'asc' }),
     }));
-    expect(notes).toEqual(mockNotesData);
+    expect(notes.map((n) => ({ ...n, text_json: JSON.parse(n.text_json) }))).toEqual(mockNotesData);
   });
   it('with a cursor, it returns notes from that cursor and later', async () => {
     const cursor = 3;
@@ -82,7 +82,7 @@ describe('when getNotes is called', () => {
       cursor: expect.objectContaining({ id: cursor }),
       orderBy: expect.objectContaining({ id: 'asc' }),
     }));
-    expect(notes).toEqual(mockNotesData);
+    expect(notes.map((n) => ({ ...n, text_json: JSON.parse(n.text_json) }))).toEqual(mockNotesData);
   });
   it('returns the number of notes in later pages', async () => {
     // Act

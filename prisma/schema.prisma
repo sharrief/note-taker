@@ -11,7 +11,8 @@ datasource db {
 
 model note {
   id      Int                      @id(map: "PK_96d0c172a4fba276b1bbed43058") @default(autoincrement())
-  text    String                   @db.VarChar(300)
+  text    String                   @db.VarChar(500)
+  text_json Json
   userId  Int?
   // text_ts Unsupported("tsvector")? @default(dbgenerated("to_tsvector('english'::regconfig, (text)::text)"))
   user    user?                    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5b87d9d19127bd5d92026017a7b")

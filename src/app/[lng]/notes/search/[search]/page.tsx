@@ -2,6 +2,7 @@ import React from 'react';
 import getNotesBySearch from '@/app/api/search/getNotesBySearch';
 import { z } from 'zod';
 import Alert from '@/components/Alert';
+
 import NotesContext from '@/app/contexts/NotesContext';
 import SearchContext from '@/app/contexts/SearchContext';
 import NotesContainer from '@/components/NotesContainer';

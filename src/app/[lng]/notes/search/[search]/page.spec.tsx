@@ -12,6 +12,7 @@ jest.mock('pg', jest.fn());
 const notes = [{
   id: 1,
   text: '1',
+  text_json: '1',
   userId: 1,
   text_tsvector: '',
   rank: 0,

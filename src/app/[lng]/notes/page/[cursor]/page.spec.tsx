@@ -34,6 +34,7 @@ describe('<NotesCursorPage />', () => {
       notes: [{
         id: 1,
         text: '1',
+        text_json: '1',
         userId: 1,
         tags: [],
       }],

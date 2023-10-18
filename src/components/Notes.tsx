@@ -5,6 +5,9 @@ import Link from 'next/link';
 import useTranslation from '@/app/i18n/client';
 import LanguageContext from '@/app/i18n/LanguageContext/client';
 import { GetNotesResult } from '@/app/api/[cursor]/getNotesByCursor';
+import StarterKit from '@tiptap/starter-kit';
+import { EditorProvider, JSONContent, generateHTML } from '@tiptap/react';
+import { useRouter } from 'next/navigation';
 import Alert from './Alert';
 
 /**
@@ -36,22 +39,39 @@ export default function Notes({
 }: NoteProps) {
   const lng = useContext(LanguageContext); // TODO move labels to props
   const { t } = useTranslation(lng, 'notes');
-
+  const extensions = [StarterKit];
+  const router = useRouter();
   return (
     <>
       {notes.length < 1 && <Alert message={t('noNotes')} type="info" />}
       {notes && (
         <>
           {notes
-            .map(({ id, text, tags }) => (
-              <div
-                className="btn bg-yellow-200 col-span-3 md:col-span-1 content-between text-left text-base lowercase justify-start cursor-pointer text-black rounded px-2 overflow-hidden"
+            .map(({ id, text_json, tags }) => (
+              <button
+                type="button"
+                className="btn font-normal border-yellow-300 col-span-3 md:col-span-1 content-between text-left text-base lowercase justify-start cursor-pointer rounded px-2 overflow-hidden"
                 style={{ height: '150px' }}
                 key={id}
+                onClick={() => router.push(`/notes/edit/${id}`)}
               >
-                <div className="line-clamp-4">{text}</div>
+                <div className="line-clamp-4">
+                  <EditorProvider
+                    editable={false}
+                    extensions={extensions}
+                    content={
+                      generateHTML(
+                        JSON.parse(text_json) as unknown as JSONContent,
+                        extensions,
+                      )
+}
+                    // eslint-disable-next-line react/no-children-prop
+                    children={undefined}
+                  />
+
+                </div>
                 <div>{tags.map(({ name, id: tagId }) => <div className="badge" key={tagId}>{name}</div>)}</div>
-              </div>
+              </button>
             ))}
 
         </>
