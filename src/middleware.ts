@@ -3,7 +3,7 @@ import createIntlMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 
 const locales = ['en', 'es'];
-const publicPages = ['/', '/register'];
+const publicPages = ['/register'];
 
 const intlMiddleware = createIntlMiddleware({
   locales,
@@ -39,5 +39,5 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  matcher: ['/((?!api|_next|.*\\..*).*)', '/notes/:path*', '/'],
 };
