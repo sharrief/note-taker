@@ -13,7 +13,8 @@
     "db:start": "docker-compose -f ./postgres/docker-compose.yml up ",
     "studio": "npx prisma studio",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/pg-adapter": "^0.2.2",
