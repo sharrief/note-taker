@@ -1,15 +1,22 @@
 import getConnection from '@/util/db/postgres';
-import { Prisma } from '@prisma/client';
+import { sql } from '@vercel/postgres';
 import getTranslations from '@/util/getTranslations';
 import { z } from 'zod';
 import searchQueryString from '@/queries/getNotesBySearch.queryString';
 
-type NoteRankAndVector = { rank: number, text_tsvector: string };
+type SearchRow = {
+  id: number,
+  userId: number,
+  text: string,
+  text_json: string,
+  text_tsvector: string,
+  rank: number
+};
 
 export type SearchNotesResults =
   /** The array of notes returned by the query */
-  ({ text_json: string } & NoteRankAndVector & Prisma.noteGetPayload<{}>)[];
-  /** The number of remaining notes in later pages */
+  SearchRow[];
+/** The number of remaining notes in later pages */
 
 /**
  *
@@ -39,21 +46,34 @@ export default async function getNotesBySearch(
 
   /** Run full-text query for notes */
   const perPage = +process.env.NEXT_PUBLIC_OPTION_NOTES_PER_PAGE ?? 6;
-  const client = await getConnection();
-  /** Prisma doesn't support full-text query on postgres
-   * so we use the pg module to query.
-   */
-  const { rows } = await client.query<{
-    id: number,
-    userId: number,
-    text: string,
-    text_json: string,
-    text_tsvector: string,
-    rank: number
-  }>(searchQueryString, [terms.trim().split(' ').join('&'), perPage, userId]);
 
-  /** Must disconnect from pg connection pool */
-  client.end();
+  let rows: SearchRow[] = [];
+  /**
+   * Prisma doesn't support full-text query on postgres
+   * so we have to use native postgres driver for full-text queries.
+   * BUT!!!!
+   * @vercel/postgres uses neondb which uses websockets
+   * which I AM NOT ABOUT TO SETUP for local dev for this project
+   * See https://gal.hagever.com/posts/running-vercel-postgres-locally
+   * So I'll use pg for local dev and vercel's stuff for prod
+   * */
+  if (process.env.VERCEL_ENV) {
+    ({ rows } = await sql<SearchRow>`
+      select id, note."userId", text, text_json, text_tsvector, ts_rank(text_tsvector, query) as rank
+      from note, to_tsquery('english',${terms.trim().split(' ').join('&')}) query
+      where note."userId" = ${userId} and query @@ text_tsvector 
+      order by rank desc
+      limit ${perPage}`);
+  } else {
+    const client = await getConnection();
+    ({ rows } = await client.query<SearchRow>(
+      searchQueryString,
+      [terms.trim().split(' ').join('&'), perPage, userId],
+    ));
+
+    /** Must disconnect from pg connection pool */
+    client.end();
+  }
 
   /** Stringify the note markup and return the notes */
   return rows.map((n) => ({ ...n, text_json: JSON.stringify(n.text_json) }));
