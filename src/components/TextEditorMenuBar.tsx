@@ -1,13 +1,13 @@
 import React from 'react';
 import { Editor, useCurrentEditor } from '@tiptap/react';
 import { FaListUl, FaListOl, FaQuoteLeft } from 'react-icons/fa';
-import useBoldButton from '@/app/hooks/useBoldButton';
-import useItalicButton from '@/app/hooks/useItalicButton';
-import useStrikeButton from '@/app/hooks/useStrikeButton';
-import useBulletListButton from '@/app/hooks/useBulletListButton';
-import useOrderedListButton from '@/app/hooks/useOrderedListButton';
-import useBlockQuoteButton from '@/app/hooks/useBlockQuoteButton';
-import useHeadingButton, { HeadingLevel } from '@/app/hooks/useHeadingButton';
+import useBoldButton from '@/hooks/useBoldButton';
+import useItalicButton from '@/hooks/useItalicButton';
+import useStrikeButton from '@/hooks/useStrikeButton';
+import useBulletListButton from '@/hooks/useBulletListButton';
+import useOrderedListButton from '@/hooks/useOrderedListButton';
+import useBlockQuoteButton from '@/hooks/useBlockQuoteButton';
+import useHeadingButton, { HeadingLevel } from '@/hooks/useHeadingButton';
 
 export type TextEditorMenuBarProps = { editor: Editor };
 

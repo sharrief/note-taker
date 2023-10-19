@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import getTranslator from '@/app/i18n';
 import prisma from '@/util/db';
+import getTranslations from '@/util/getTranslations';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
@@ -17,7 +17,7 @@ export async function POST(
     const body = await request.json();
     if (!body.id || !body.text || !body.text_json) {
       // TODO use session to get user language for error messages
-      const { t } = await getTranslator('en', 'errors');
+      const t = getTranslations('errors');
       return NextResponse.json({ note: undefined, error: t('invalid-note') });
     }
     const { id: rawId, text: rawInput, text_json: rawJson } = body;

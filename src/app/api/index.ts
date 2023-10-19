@@ -45,5 +45,3 @@ export async function edit(
   const { error, note } = (await res.json());
   return { error, note };
 }
-
-export default save;

@@ -14,7 +14,7 @@ const createJestConfig = nextJest({
 });
 const config: Config = {
   displayName: 'browser',
-  testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)', '!**/api/**'],
+  testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)', '!**/api/**', '!**/db/**'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: __dirname }),
 };

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Alert from '@/components/Alert';
-import useDraftNote from '@/app/hooks/useDraftNote';
-import LanguageContext from '@/app/i18n/LanguageContext/client';
-import useTranslation from '@/app/i18n/client';
+import useDraftNote from '@/hooks/useDraftNote';
+import { useTranslations } from 'next-intl';
 /**
  * The minimum characters required to save a draft note
  */
@@ -17,8 +16,7 @@ export interface TextEditorBottomMenuProps {
 }
 
 export default function TextEditorBottomMenu({ id }: Partial<TextEditorBottomMenuProps>) {
-  const lng = useContext(LanguageContext);
-  const { t } = useTranslation(lng, 'draft');
+  const t = useTranslations('draft');
   const {
     busy, canSave, onSave, canDiscard, onDiscard, alertMessage, alertType,
   } = useDraftNote(

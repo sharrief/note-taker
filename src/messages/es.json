@@ -1,0 +1,32 @@
+{
+  "notes": {
+    "title": "Note taker",
+  "heading": "tus notas",
+  "noNotes": "no se encontraron notas",
+  "remaining": "hay { remaining } notas más",
+  "noneRemaining": "no",
+  "newNote": "nueva nota",
+  "prev": "anterior",
+  "next": "siguiente",
+  "searchNotes": "busca tus notas",
+  "search": "buscar",
+  "searching": "buscando",
+  "normal": "normal"
+  },
+  "draft": {
+    "draftNote": "nota no guardada",
+    "typeHere": "escriba aquí",
+    "save": "guardar",
+    "discard": "descartar",
+    "aria-discardNote": "descartar el borrador y volver a notas",
+    "aria-saveNote": "guarda esta nota",
+    "warn-minLength": "La nota debe contener al menos {min} caracteres para ser guardada.",
+    "warn-maxLength": "La nota debe tener menos de {max} caracteres para guardarse",
+    "save-success": "Guardado exitosamente"
+  },
+  "errors": {
+    "invalid-note": "Invalid note text was provided. Note text must contain only characters.",
+    "invalid-search": "Invalid search query was provided. The search must contain only characters.",
+    "invalid-id": "Invalid note id was provided. The note id must be a number."
+  }
+}

@@ -1,20 +1,17 @@
 'use client';
 
 import React, { useContext } from 'react';
-import useTranslation from '@/app/i18n/client';
-import LanguageContext from '@/app/i18n/LanguageContext/client';
-
-import NotesContext from '@/app/contexts/NotesContext';
+import NotesContext from '@/contexts/NotesContext';
 import Notes from '@/components/Notes';
-import SearchContext from '@/app/contexts/SearchContext';
+import SearchContext from '@/contexts/SearchContext';
 import SearchBar from '@/components/SearchBar';
-import useNotesSearch from '@/app/hooks/useNotesSearch';
+import useNotesSearch from '@/hooks/useNotesSearch';
+import { useTranslations } from 'next-intl';
 
 /** The container that loads the contexts for Notes relates components
  */
 export default function NotesContainer() {
-  const lng = useContext(LanguageContext);
-  const { t } = useTranslation(lng, 'notes');
+  const t = useTranslations('notes');
 
   const { notes, remaining } = useContext(NotesContext);
   const next = remaining ? notes[notes.length - 1]?.id : undefined;

@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import useTranslation from '@/app/i18n/client';
-import LanguageContext from '@/app/i18n/LanguageContext/client';
-import { GetNotesResult } from '@/app/api/[cursor]/getNotesByCursor';
+import { GetNotesResult } from '@/db/getNotesByCursor';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorProvider, JSONContent, generateHTML } from '@tiptap/react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Alert from './Alert';
 
 /**
@@ -37,8 +36,7 @@ export type NotePropsDefaults = {
 export default function Notes({
   notes, firstPage, remaining, next,
 }: NoteProps) {
-  const lng = useContext(LanguageContext); // TODO move labels to props
-  const { t } = useTranslation(lng, 'notes');
+  const t = useTranslations('notes');
   const extensions = [StarterKit];
   const router = useRouter();
   return (
@@ -51,7 +49,7 @@ export default function Notes({
               <button
                 type="button"
                 className="btn font-normal border-yellow-300 col-span-3 md:col-span-1 content-between text-left text-base lowercase justify-start cursor-pointer rounded px-2 overflow-hidden"
-                style={{ height: '150px' }}
+                style={{ height: '300px' }}
                 key={id}
                 onClick={() => router.push(`/notes/edit/${id}`)}
               >
@@ -64,7 +62,7 @@ export default function Notes({
                         JSON.parse(text_json) as unknown as JSONContent,
                         extensions,
                       )
-}
+                    }
                     // eslint-disable-next-line react/no-children-prop
                     children={undefined}
                   />
@@ -81,15 +79,15 @@ export default function Notes({
           {t('remaining', { remaining: `${remaining}` || t('noneRemaining') })}
         </em>
       </div>
-      <div className="col-span-3 mx-auto grid grid-cols-3 gap-3">
-        <Link className={`btn ${firstPage ? 'btn-disabled' : ''}`} href="/notes">
+      <div className="col-span-3 mx-auto join grid grid-cols-3">
+        <Link className={`btn join-item ${firstPage ? 'btn-disabled' : ''}`} href="/notes">
           {t('prev')}
         </Link>
         <a href="/draft">
-          <button type="button" className="btn btn-info">{t('newNote')}</button>
+          <button type="button" className="btn join-item btn-info">{t('newNote')}</button>
         </a>
         <Link
-          className={`btn ${next == null ? 'btn-disabled' : ''}`}
+          className={`btn join-item ${next == null ? 'btn-disabled' : ''}`}
           href={`/notes/page/${next}`}
         >
           {t('next')}

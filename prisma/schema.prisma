@@ -23,6 +23,7 @@ model note {
 
 model user {
   id       Int     @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
+  userId    String
   username String  @db.VarChar
   email    String  @db.VarChar
   password String? @db.VarChar

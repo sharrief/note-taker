@@ -14,7 +14,7 @@ const createJestConfig = nextJest({
 });
 const config: Config = {
   displayName: 'server',
-  testMatch: ['**/api/**/?(*.)+(spec|test).[jt]s?(x)'],
+  testMatch: ['**/api/**/?(*.)+(spec|test).[jt]s?(x)', '**/db/**/?(*.)+(spec|test).[jt]s?(x)'],
   testEnvironment: 'jest-environment-node',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: __dirname }),
 };

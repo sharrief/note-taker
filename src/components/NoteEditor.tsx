@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { EditorProvider } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CharacterCount from '@tiptap/extension-character-count';
 import TextEditorMenuBar from '@/components/TextEditorMenuBar';
 import TextEditorBottomMenu from '@/components/TextEditorBottomMenu';
-import useTranslation from '@/app/i18n/client';
-import LanguageContext from '@/app/i18n/LanguageContext/client';
+import { useTranslations } from 'next-intl';
 
 export interface DraftNoteProps {
   content: string;
@@ -26,8 +25,7 @@ export interface DraftNoteProps {
  */
 export default function NoteEditor({ content: initialContent, id }: Partial<DraftNoteProps>) {
   const extensions = [StarterKit, CharacterCount];
-  const lng = useContext(LanguageContext);
-  const { t } = useTranslation(lng, 'draft');
+  const t = useTranslations('draft');
   let content = t('typeHere');
   if (initialContent) content = initialContent;
 
