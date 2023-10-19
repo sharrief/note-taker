@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Note Taker
 
-## Getting Started
+I had a blast building this project as part of an assessment for an job application. The assessment had a 3 week timeline. I completed the project in 15 calendar days, but was away for 5 of those days at a wedding.
 
-First, run the development server:
+The objective was stated as:
+> The deliverable out of this is a link to a Github repo, whatever documentation you might think would be helpful and a working web app hosted somewhere publicly accessible.
+>
+> Please build a very simple “Notes” Web App. An app that will allow a user to Index, Create, Update and Delete notes. 
+> 
+> Our main goal is to see how you put the pieces together, so feel free to be creative and have fun with it. Please ensure that you cover all of the acceptance criteria mentioned below but be sure to add your own spin on it and if you have to make tradeoffs in any area, that’s fine, just mention what and why in your documentation.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The acceptance requirements were:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Must be written with JavaScript or Typescript (preferred)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Note Form must have the following validations
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  - Must not be shorter then 20 characters
 
-## Learn More
+  - Must not be longer then 300 characters
 
-To learn more about Next.js, take a look at the following resources:
+- Main page must include all the notes and a way to create a new note
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Main page must include a search bar that will find based on a notes content. (Client or Server query is fine)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Must include README with steps on how to run the application(s) locally.
+---
+### How to access publicly
+For now the project is running live on Vercel at https://note-taker.sharrief.com. Its a live app, so please be nice, I haven't added the robust network protections a public live service would normally have.
 
-## Deploy on Vercel
+You'll need to sign up for an account, then sign in, then you can create your notes.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
+### How to run locally
+1. Install Docker desktop
+    - This is needed to run a postgres db server locally
+1. Clone the repo
+1. ``cd`` into the postgres directory of the repo
+1. Create a .env file at the project root. Define at least these 3 vars
+    - POSTGRES_USER
+    - POSTGRES_PASSWORD
+    - POSTGRES_DB 
+1. Run ``docker-compose up``. This will use these vars to create the postgres server in a Docker container
+1. Deploy the prisma schema to the database by running ``npx prisma generate dev``
+1. Add the text search column vector by executing the SQL statement: 
+    - > ``
+    ALTER TABLE "note" ADD COLUMN "text_tsvector" tsvector GENERATED ALWAYS AS (to_tsvector('english', text)) STORED;
+    ``
+1. Create a few more .env vars for the "pg" postgres driver to use to connect to the db. In the examples below the previously created vars are re-used.
+    - PGHOST=localhost
+    - PGPORT=5432
+    - PGUSER=${POSTGRES_USER}
+    - PGPASSWORD=${POSTGRES_PASSWORD}
+    - PGDATABASE=${POSTGRES_DB}
+1. Create an .env var for next-auth to use when encrypting cookies/jwts
+    - NEXTAUTH_SECRET
+1. ``cd`` into the project root and run ``npm run dev`` to start the web server using NextJS
+1. Open a browser on the machine and navigate to https://localhost:3000 (the default port is 3000)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+### Misc
+
+A few things I did beyond the base requirements
+1. Add a sign up/sign in process
+1. Add a rich text editor
+1. Added some tests with Jest
+1. Added storybooks for some client components
+1. JSDocs with typedoc
+1. Added basic localization support
+1. Host on a custom domain
+
+Some of the tricky things I ran into
+1. Prisma doesn't support full text search with postgres. So I used two other postgres drivers for full text search: 
+      - For production I used @vercel/postgres which uses websockets for perf benefits on the edge runtime. 
+      - For local dev I use the basis "pg" module
+1. Was my first time using NextJS App router, server components are nice once you get used to them
+1. First time using many other modules here, like the tiptap editor and next-intl
+
+I would (might?) do a few more things beyond the requirements to bring this product to production ready levels.
+
+1. Add error reporting with Sentry
+1. Add telemetry reporting
+1. More comprehensive testing (snapshot testing, transactions for db-based testing, full module mocks)
+1. Learn more about NextJS caching to fix the issue where the Notes list page doesn't refresh after burning a note 😁
