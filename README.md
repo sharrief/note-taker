@@ -82,3 +82,5 @@ I would (might?) do a few more things beyond the requirements to bring this prod
 1. Add telemetry reporting
 1. More comprehensive testing (snapshot testing, transactions for db-based testing, full module mocks)
 1. Learn more about NextJS caching to fix the issue where the Notes list page doesn't refresh after burning a note 😁
+1. Improve pagination experience. Decided to try out cursor-based pagination just to learn, even though my expected dataset is small.
+1. Build a custom stop list for full text search
