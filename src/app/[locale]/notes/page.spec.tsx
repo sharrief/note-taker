@@ -4,17 +4,26 @@ import getNotesByCursor from '@/queries/getNotesByCursor';
 
 import NotesContext from '@/contexts/NotesContext';
 import NotesContainer from '@/components/NotesContainer';
+import { auth } from '@/util/auth';
 import Page from './page';
 
 // Arrange
 jest.mock('@/components/NotesContainer');
 const mockNotes = jest.mocked(NotesContainer);
 
-jest.mock('@/db/getNotesByCursor');
+jest.mock('@/util/auth', jest.fn(() => ({
+  auth: jest.fn().mockResolvedValue({ user: { id: 9 } }),
+})));
+const mockAuth = jest.mocked(auth);
+
+jest.mock('@/queries/getNotesByCursor');
+const mockGetNotesByCursor = jest.mocked(getNotesByCursor);
+
 jest.mock('@/contexts/NotesContext', () => ({
   Provider: jest.fn(({ children }) => children),
 }));
 const mockNotesContextProvider = jest.mocked(NotesContext.Provider);
+
 jest.mock('@/contexts/SearchContext', () => ({
   Provider: jest.fn(({ children }) => children),
 }));
@@ -23,7 +32,7 @@ afterEach(() => {
 });
 
 describe('<NotesPage />', () => {
-  it('should render the Notes component', async () => {
+  it('should render the Notes component with notes for the session user', async () => {
     // Arrange
     const notesData = {
       notes: [{
@@ -41,6 +50,8 @@ describe('<NotesPage />', () => {
     const page = await Page();
     render(page);
     // Assert
+    expect(mockAuth).toHaveBeenCalled();
+    expect(mockGetNotesByCursor).toHaveBeenCalledWith(9);
     expect(mockNotesContextProvider).toHaveBeenCalledWith(expect.objectContaining({
       value: expect.objectContaining(notesData),
     }), expect.anything());

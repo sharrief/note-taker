@@ -1,17 +1,8 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import prisma from '@/util/db';
 import { getServerSession } from 'next-auth/next';
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next';
-
-const findUserByCredentials = async (username: string, password: string) => {
-  const user = await prisma.user.findFirst({
-    select: { id: true, username: true },
-    where: { username, password },
-  });
-  if (!user) return null;
-  return { id: `${user.id}`, username: user.username };
-};
+import findUserByCredentials from '@/util/findUserByCredentials';
 
 export const config = {
   pages: {
@@ -42,7 +33,7 @@ export const config = {
     async jwt({ token, user }) {
       if (user) {
         // eslint-disable-next-line no-param-reassign
-        token.user = user;
+        token.user = { ...user, id: +user.id };
       }
       return token;
     },

@@ -26,13 +26,14 @@ export interface DraftNoteProps {
 export default function NoteEditor({ content: initialContent, id }: Partial<DraftNoteProps>) {
   const extensions = [StarterKit, CharacterCount];
   const t = useTranslations('draft');
-  let content = t('typeHere');
+  const rand = (Math.floor(Math.random() * 3)) + 1;
+  let content = t(`placeholder${rand}`);
   if (initialContent) content = initialContent;
 
   return (
     <div className="container mx-auto">
       <article className="prose mx-auto min-h-screen px-11 py-24 grid grid-cols-4 gap-4 content-start">
-        <h1 className="m-auto col-span-4 capitalize">{t('draftNote')}</h1>
+        <h1 className="m-auto col-span-4 capitalize">{initialContent ? t('editNote') : t('draftNote')}</h1>
         <div className="col-span-4">
           <div className="border textarea border-yellow-200 rounded-lg">
             <EditorProvider

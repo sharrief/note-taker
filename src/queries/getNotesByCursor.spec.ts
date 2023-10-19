@@ -1,6 +1,6 @@
 import prisma from '@/util/db';
 import { Prisma } from '@prisma/client';
-import getNotesByCursor from './getNotesByCursor';
+import _getNotesByCursor from './getNotesByCursor';
 
 // Arrange
 jest.mock('@/util/db', () => ({
@@ -10,23 +10,22 @@ jest.mock('@/util/db', () => ({
   },
 }));
 
-const mockNotesData: Prisma.noteGetPayload<{ include: {
-  tags: true
-} }>[] = [
+const userId = 9;
+const mockNotesData: (Prisma.noteGetPayload<{}>)[] = [
   {
-    id: 1, text: 'first note', text_json: null, userId: 1, tags: [{ id: 1, name: 'test', userId: 1 }],
+    id: 1, text: 'first note', text_json: null, userId,
   },
   {
-    id: 2, text: 'second note', text_json: null, userId: 1, tags: [],
+    id: 2, text: 'second note', text_json: null, userId,
   },
   {
-    id: 3, text: 'third note', text_json: null, userId: 1, tags: [],
+    id: 3, text: 'third note', text_json: null, userId,
   },
   {
-    id: 4, text: 'fourth note', text_json: null, userId: 1, tags: [],
+    id: 4, text: 'fourth note', text_json: null, userId,
   },
   {
-    id: 5, text: 'fifth note', text_json: null, userId: 1, tags: [],
+    id: 5, text: 'fifth note', text_json: null, userId,
   },
 ];
 const mockPrisma = jest.mocked(prisma);
@@ -40,6 +39,8 @@ afterEach(() => {
   mockPrisma.note.count.mockReset();
 });
 
+const getNotesByCursor = (cursor?: number) => _getNotesByCursor(userId, cursor);
+
 describe('when getNotes is called', () => {
   it('returns no notes if none exist', async () => {
     mockPrisma.note.findMany.mockResolvedValueOnce([]);
@@ -50,14 +51,14 @@ describe('when getNotes is called', () => {
     expect(notes.length).toBe(0);
     expect(remaining).toBe(0);
   });
-  it('includes the tags in the notes', async () => {
+  it('shows only notes for the session user', async () => {
     // Act
     const { notes } = await getNotesByCursor();
     // Assert
     expect(mockPrisma.note.findMany).toHaveBeenCalledWith(expect.objectContaining({
-      include: expect.objectContaining({ tags: true }),
+      where: { userId },
     }));
-    expect(notes.some((n) => n.tags.length > 0)).toBe(true);
+    expect(notes[0]).toEqual(expect.objectContaining({ ...mockNotesData[0], text_json: 'null' }));
   });
   it('without a cursor, it returns all notes', async () => {
     // Act

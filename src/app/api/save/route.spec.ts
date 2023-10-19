@@ -12,9 +12,14 @@ jest.mock('@/util/db', () => ({
 }));
 const mockPrisma = jest.mocked(prisma);
 
-const minLength = +env.NEXT_PUBLIC_OPTION_NOTE_MIN_LENGTH;
-const maxLength = +env.NEXT_PUBLIC_OPTION_NOTE_MAX_LENGTH;
-const genText = (length: number) => (new Array(Math.floor(length)).fill('x').join(''));
+jest.mock('@/util/getTranslations', () => jest.fn(() => jest.fn((err) => err)));
+
+jest.mock('next-auth/next', () => ({
+  getServerSession: jest.fn().mockResolvedValue({ user: { id: 9 } }),
+}));
+
+jest.mock('next/cache');
+
 const getRequest = (text: any) => ({
   json: async () => (text == null ? {} : { text, text_json: JSON.stringify({ text }) }),
 }) as unknown as NextRequest;
@@ -22,13 +27,16 @@ jest.mock('next/server');
 const mockResponseJson = jest.spyOn(NextResponse, 'json');
 
 afterEach(() => {
-  jest.resetAllMocks();
   mockPrisma.note.create.mockRestore();
 });
 
+const minLength = +env.NEXT_PUBLIC_OPTION_NOTE_MIN_LENGTH;
+const maxLength = +env.NEXT_PUBLIC_OPTION_NOTE_MAX_LENGTH;
+const genText = (length: number) => (new Array(Math.floor(length)).fill('x').join(''));
+
 describe('POST', () => {
   it.each<[string, any, string]>([
-    ['no text property', null, 'Invalid note'],
+    ['no text property', null, 'invalid-note'],
     ['non-string text', 5, ''],
     ['text.len == 0', '', ''],
     ['text.len < min', genText(Math.max(minLength - 1, 0)), ''],

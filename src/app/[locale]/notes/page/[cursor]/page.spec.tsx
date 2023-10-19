@@ -15,7 +15,7 @@ jest.mock('next/navigation', () => ({
   redirect: jest.fn().mockReturnValueOnce(null),
 }));
 
-jest.mock('@/db/getNotesByCursor');
+jest.mock('@/queries/getNotesByCursor');
 jest.mock('@/contexts/NotesContext', () => ({
   Provider: jest.fn(({ children }) => children),
 }));

@@ -5,5 +5,6 @@
 
 */
 -- AlterTable
-ALTER TABLE "note" ADD COLUMN     "text_json" JSONB NOT NULL;
+ALTER TABLE "note" 
+ADD COLUMN "text_json" JSONB NOT NULL,
 ALTER COLUMN "text" SET DATA TYPE VARCHAR(500);

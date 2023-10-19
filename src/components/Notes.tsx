@@ -45,7 +45,7 @@ export default function Notes({
       {notes && (
         <>
           {notes
-            .map(({ id, text_json, tags }) => (
+            .map(({ id, text_json }) => (
               <button
                 type="button"
                 className="btn font-normal border-yellow-300 col-span-3 md:col-span-1 content-between text-left text-base lowercase justify-start cursor-pointer rounded px-2 overflow-hidden"
@@ -68,7 +68,6 @@ export default function Notes({
                   />
 
                 </div>
-                <div>{tags.map(({ name, id: tagId }) => <div className="badge" key={tagId}>{name}</div>)}</div>
               </button>
             ))}
 

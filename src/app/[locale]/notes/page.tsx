@@ -1,8 +1,9 @@
 import React from 'react';
-import getNotesByCursor from '@/queries/getNotesByCursor';
+import getNotesByCursor, { GetNotesResult } from '@/queries/getNotesByCursor';
 import NotesContainer from '@/components/NotesContainer';
 import NotesContext from '@/contexts/NotesContext';
 import SearchContext from '@/contexts/SearchContext';
+import { auth } from '@/util/auth';
 
 /**
  * @example
@@ -15,7 +16,10 @@ import SearchContext from '@/contexts/SearchContext';
  * @param {object} props
  */
 export default async function NotesPage() {
-  const { notes, remaining } = await getNotesByCursor();
+  const session = await auth();
+  let notes: GetNotesResult['notes'] = [];
+  let remaining = 0;
+  if (session?.user.id) ({ notes, remaining } = await getNotesByCursor(session.user.id));
   return (
     /** This page is a server component so notes & remaining don't change */
     // eslint-disable-next-line react/jsx-no-constructed-context-values

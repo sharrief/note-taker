@@ -14,28 +14,16 @@ model note {
   text    String                   @db.VarChar(500)
   text_json Json
   userId  Int?
-  // text_ts Unsupported("tsvector")? @default(dbgenerated("to_tsvector('english'::regconfig, (text)::text)"))
   user    user?                    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_5b87d9d19127bd5d92026017a7b")
-  tags    tag[]                    @relation("noteTotag")
 
   // @@index([text(ops: raw("gin_trgm_ops"))], map: "text_idx", type: Gin)
 }
 
 model user {
   id       Int     @id(map: "PK_cace4a159ff9f2512dd42373760") @default(autoincrement())
-  userId    String
   username String  @db.VarChar
-  email    String  @db.VarChar
   password String? @db.VarChar
   salt     String? @db.VarChar
   note     note[]
-  tag      tag[]
 }
 
-model tag {
-  id     Int    @id @default(autoincrement())
-  userId Int?
-  name   String @db.VarChar(20)
-  user   user?  @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  note   note[] @relation("noteTotag")
-}

@@ -18,13 +18,17 @@ export interface TextEditorBottomMenuProps {
 export default function TextEditorBottomMenu({ id }: Partial<TextEditorBottomMenuProps>) {
   const t = useTranslations('draft');
   const {
-    busy, canSave, onSave, canDiscard, onDiscard, alertMessage, alertType,
+    busy, canSave, onSave,
+    canDiscard, onDiscard,
+    canDelete, onDelete,
+    alertMessage, alertType,
   } = useDraftNote(
     min,
     t('warn-minLength', { min }),
     max,
     t('warn-maxLength', { max }),
     t('save-success'),
+    t('delete-success'),
     id,
   );
 
@@ -49,6 +53,17 @@ export default function TextEditorBottomMenu({ id }: Partial<TextEditorBottomMen
         >
           {t('discard')}
         </button>
+        {id && (
+        <button
+          type="button"
+          aria-label={t('aria_deleteNote')}
+          className="btn btn-secondary join-item"
+          disabled={!canDelete}
+          onClick={onDelete}
+        >
+          {t('delete')}
+        </button>
+        )}
       </div>
 
       {alertMessage

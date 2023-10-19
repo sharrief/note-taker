@@ -17,6 +17,10 @@ export interface DraftState {
   canDiscard: boolean;
   /** Discards the draft by navigating back */
   onDiscard: () => void;
+  /** Whether the note can be deleted */
+  canDelete: boolean;
+  /** Deletes the note via the api */
+  onDelete: () => void;
   /** Whether the note text can be edited */
   canType: boolean;
   /** Whether the hook is busy waiting on an async function call */
@@ -32,6 +36,10 @@ export interface DraftState {
  * @param {number} min The minimum number of characters a note must have be savable
  * @param {string} warnMinLengthLabel
  * @param {number} max The maximum number of characters a note can have to be saveable
+ * @param {string} warnMaxLengthLabel
+ * @param {string} saveSuccess The label to show upon successful saving
+ * @param {string} deleteSuccess The label to show upon successful deleting
+ * @param {number} id The id of the note if editing existing note
  */
 export default function useDraftNote(
   min: number,
@@ -39,6 +47,7 @@ export default function useDraftNote(
   max: number,
   warnMaxLengthLabel: string,
   saveSuccess: string,
+  deleteSuccess: string,
   id?: number,
 ): DraftState {
   const { editor } = useCurrentEditor();
@@ -54,6 +63,7 @@ export default function useDraftNote(
   const validLength = charCount >= min && charCount <= max;
   const canSave = validLength && !!charCount && !busy;
   const canDiscard = !busy;
+  const canDelete = id != null && !busy;
   const canType = !busy;
 
   useEffect(() => {
@@ -92,7 +102,35 @@ export default function useDraftNote(
     router.replace('/notes');
   };
 
+  const onDelete = async () => {
+    if (!canDelete || !editor || id == null) return;
+    editor?.setEditable(false);
+    setBusy(true);
+    const { error } = await api.burn(id);
+    if (error) {
+      editor.setEditable(true);
+      setBusy(false);
+      setAlertMessage(error);
+      setAlertType('error');
+    } else {
+      // set to busy while navigating back to notes
+      setBusy(true);
+      setAlertMessage(deleteSuccess);
+      setAlertType('success');
+      router.replace('/notes');
+    }
+  };
+
   return {
-    busy, alertType, alertMessage, canSave, onSave, canDiscard, onDiscard, canType,
+    busy,
+    alertType,
+    alertMessage,
+    canSave,
+    onSave,
+    canDiscard,
+    canDelete,
+    onDiscard,
+    onDelete,
+    canType,
   };
 }

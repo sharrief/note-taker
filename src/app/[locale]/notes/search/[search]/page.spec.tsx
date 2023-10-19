@@ -4,10 +4,11 @@ import getNotesBySearch from '@/queries/getNotesBySearch';
 import NotesContext from '@/contexts/NotesContext';
 import SearchContext from '@/contexts/SearchContext';
 import NotesContainer from '@/components/NotesContainer';
+import { auth } from '@/util/auth';
 import Page from './page';
 
 // Arrange
-jest.mock('@/db/getNotesBySearch');
+jest.mock('@/queries/getNotesBySearch');
 jest.mock('pg', jest.fn());
 const notes = [{
   id: 1,
@@ -18,8 +19,17 @@ const notes = [{
   rank: 0,
   tags: [],
 }];
+
 jest.mock('@/components/NotesContainer');
 const mockNotesContainer = jest.mocked(NotesContainer);
+
+jest.mock('@/util/auth', jest.fn(() => ({
+  auth: jest.fn().mockResolvedValue({ user: { id: 9 } }),
+})));
+const mockAuth = jest.mocked(auth);
+
+jest.mock('@/queries/getNotesBySearch');
+const mockGetNotesBySearch = jest.mocked(getNotesBySearch);
 
 jest.mock('@/contexts/NotesContext', () => ({
   Provider: jest.fn(({ children }) => (children)),
@@ -41,6 +51,8 @@ describe('<NotesSearchPage />', () => {
     // Act
     render(page);
     // Assert
+    expect(mockAuth).toHaveBeenCalled();
+    expect(mockGetNotesBySearch).toHaveBeenCalledWith(9, search);
     expect(mockNoteContextProvider).toHaveBeenCalledWith(
       expect.objectContaining({ value: expect.objectContaining({ notes }) }),
       expect.anything(),

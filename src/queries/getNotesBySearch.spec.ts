@@ -1,32 +1,37 @@
-import getNotesBySearch from '@/queries/getNotesBySearch';
-import { env } from 'process';
-/**
- * This test relies on a test db server to validate the query.
- * Other parts of the app rely on prisma, so those tests mock prisma
- * and assert on the args to prisma functions.
- * Full-text search on postgres is not supported by prisma
- * so the function tested here uses native postgres queries.
- * To validate the queries are formatted correctly while mocking
- * pg would require complex parsing of the SQL.
- * So instead this test uses a live test db server to handle the parsing
- * and asserts only on the results of the query.
- * */
+/* eslint-disable implicit-arrow-linebreak */
+import _getNotesBySearch from '@/queries/getNotesBySearch';
+import searchQueryString from '@/queries/getNotesBySearch.queryString';
+
+// Arrange
+jest.mock('@/util/getTranslations', () => jest.fn(() => jest.fn((err) => err)));
+
+const mockRows: { id: number }[] = [];
+const mockedQuery = jest.fn().mockResolvedValue({ rows: mockRows });
+
+jest.mock('@/util/db/postgres', jest.fn(() => /* module returns default export function getConnection */
+  jest.fn().mockImplementation(() => /* getConnection returns new Pool */
+  // Pool returns a client
+    ({
+      // client has query and end methods
+      query: mockedQuery,
+      end: jest.fn(),
+    }))));
+
 describe('getNotesBySearch', () => {
+  const getNotesBySearch = (search: string | number) => _getNotesBySearch(9, search as string);
   it('throws if not provided a string', async () => {
     // Act & Assert
-    await expect(getNotesBySearch(5 as unknown as string)).rejects.toThrowError('Invalid search');
+    await expect(getNotesBySearch(5 as unknown as string)).rejects.toThrowError('invalid-search');
   });
 
   it('returns matching rows from the database', async () => {
     // Act
     const rows = await getNotesBySearch('one');
     // Assert
-    expect(rows).toHaveLength(4);
-    expect(rows[0]).toHaveProperty('id');
-    expect(rows[0]).toHaveProperty('rank');
-    expect(rows[0]).toHaveProperty('text_tsvector');
-    expect(rows[0]).toHaveProperty('text');
-    expect(rows[0].rank).toBeGreaterThanOrEqual(rows[1].rank);
-    expect(rows.length).toBeLessThanOrEqual(+env.NEXT_PUBLIC_OPTION_NOTES_PER_PAGE);
+    expect(mockedQuery).toHaveBeenCalledWith(
+      expect.stringContaining(searchQueryString),
+      expect.arrayContaining(['one', expect.anything(), 9]),
+    );
+    expect(rows).toEqual(mockRows);
   });
 });

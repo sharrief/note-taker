@@ -1,20 +1,47 @@
 'use client';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import icon from '@/app/icon.png';
-import { signIn } from 'next-auth/react';
+import Alert from '@/components/Alert';
+import { signUp } from '@/app/api';
+import useRegistrationForm from '@/hooks/useRegistrationForm';
 
-export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const onSubmit = () => {
-    signIn('credentials', {
-      callbackUrl: '/notes',
+export default function Register() {
+  const {
+    username,
+    setUsername,
+    password,
+    setPassword,
+    alert,
+    setAlert,
+    busy,
+    setBusy,
+    regSuccess,
+    setRegSuccess,
+  } = useRegistrationForm();
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setBusy(true);
+    setAlert(null);
+    const { error, message } = await signUp(
       username,
       password,
-    });
+    );
+    setBusy(false);
+    if (error) {
+      setAlert({
+        message: error, type: 'error',
+      });
+    } else if (message) {
+      setBusy(true);
+      setAlert({
+        message, type: 'success',
+      });
+      setRegSuccess(true);
+    }
   };
   const passwordId = 'passwordField';
   const usernameId = 'usernameField';
@@ -29,17 +56,20 @@ export default function Login() {
           <p className="py-6 text-lg italic">{'Take the best notes you\'ve ever taken!'}</p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form className="card-body" onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
+          <form className="card-body" data-testid="form" onSubmit={onSubmit}>
             <div className="form-control">
               <label className="label" htmlFor={usernameId}>
                 <span className="label-text">Username</span>
               </label>
               <input
                 id={usernameId}
+                // eslint-disable-next-line react/no-unknown-property
+                data-testid="username"
                 type="username"
                 placeholder=""
                 className="input input-bordered"
                 required
+                disabled={busy}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -50,24 +80,40 @@ export default function Login() {
               </label>
               <input
                 id={passwordId}
+                data-testid="password"
                 type="password"
                 placeholder=""
                 className="input input-bordered"
                 required
+                disabled={busy}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="form-control mt-6">
-              <button type="submit" className="btn btn-warning btn-outline">Login</button>
+              <button
+                type="submit"
+                disabled={busy}
+                className="btn btn-success btn-outline"
+              >
+                Sign up
+              </button>
             </div>
-            <div className="form-control mt-6">
-              <span>
-                First time?
-                {' '}
-                <a className="btn-link" href="/register">Sign up</a>
-              </span>
+            {alert && (
+            <div>
+              <Alert message={alert.message} type={alert.type} />
             </div>
+            )}
+            {regSuccess && (
+              <div className="form-control">
+                <a
+                  className="btn btn-primary"
+                  href="/login"
+                >
+                  Take me there
+                </a>
+              </div>
+            )}
           </form>
         </div>
       </div>

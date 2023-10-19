@@ -13,9 +13,6 @@ export default async function getNoteById(id: number) {
   }
   const note = await prisma.note.findFirst({
     where: { id },
-    include: {
-      tags: true,
-    },
   });
 
   return note;

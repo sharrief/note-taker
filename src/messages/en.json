@@ -14,19 +14,31 @@
     "normal": "normal"
   },
   "draft": {
-    "draftNote": "unsaved note",
-    "typeHere": "type here",
+    "draftNote": "create a note",
+    "editNote": "edit the note",
+    "placeholder1": "This could be your greatest work...",
+    "placeholder2": "What's on your mind...",
+    "placeholder3": "Famous first words...",
     "save": "save",
     "discard": "discard",
-    "aria-discardNote": "discard the draft and return to notes",
+    "delete": "burn",
     "aria-saveNote": "save this note",
+    "aria-discardNote": "discard the edits and return to notes",
+    "aria-deleteNote": "burn the note and return to notes",
     "warn-minLength": "The note must contain at least {min} characters to be saved",
     "warn-maxLength": "The note must be shorter than {max} characters to be saved",
-    "save-success": "Saved successfully"
+    "save-success": "Saved successfully",
+    "delete-success": "Burned successfully"
+  },
+  "messages": {
+    "registration-success": "You've been successfully registered! You can now sign in at the login page."
   },
   "errors": {
     "invalid-note": "Invalid note text was provided. Note text must contain only characters.",
     "invalid-search": "Invalid search query was provided. The search must contain only characters.",
-    "invalid-id": "Invalid note id was provided. The note id must be a number."
+    "invalid-id": "Invalid note id was provided. The note id must be a number.",
+    "invalid-registration": "Invalid registration information was provided.",
+    "registration-exists": "We could not register you with that information. Try a different username.",
+    "no-session": "You must be signed in to do that"
   }
 }

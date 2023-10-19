@@ -45,3 +45,47 @@ export async function edit(
   const { error, note } = (await res.json());
   return { error, note };
 }
+
+/**
+ * Deletes a note using the API
+ * @example
+ * ```
+ * const { error, success } = await delete(100);
+ * ```
+ * @param {number} id The id of the note to delete
+ * @returns {object} The response from the API
+ */
+export async function burn(
+  id: number,
+): Promise<{ error?: string, success: boolean }> {
+  const body = { id };
+  const res = (await post('/api/burn', body));
+  if (res.status !== 200) {
+    return { success: false, error: res.statusText };
+  }
+  const { error, success } = (await res.json());
+  return { error, success };
+}
+
+/**
+ * Registers a new user account
+ * @example
+ * ```
+ * const { error, message } = await signUp('johnSmith', 'a87sf$@#rqwERW#$');
+ * ```
+ * @param {string} username The username of the user to register
+ * @param {string} password The desired password of the user to register
+ * @returns {object} The error and/or message from the registration service
+ */
+export async function signUp(
+  username: string,
+  password: string,
+): Promise<{ error?: string, message?: string }> {
+  const body = { username, password };
+  const res = (await post('/api/signup', body));
+  if (res.status !== 200) {
+    return { message: undefined, error: res.statusText };
+  }
+  const { error, message } = (await res.json());
+  return { error, message };
+}
