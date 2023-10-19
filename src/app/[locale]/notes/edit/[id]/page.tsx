@@ -1,6 +1,6 @@
 import React from 'react';
 import NoteEditor from '@/components/NoteEditor';
-import getNoteById from '@/db/getNoteById';
+import getNoteById from '@/queries/getNoteById';
 import StarterKit from '@tiptap/starter-kit';
 import { generateHTML } from '@tiptap/html';
 import { JSONContent } from '@tiptap/core';

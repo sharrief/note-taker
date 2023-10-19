@@ -1,4 +1,4 @@
-import getNotesBySearch from '@/db/getNotesBySearch';
+import getNotesBySearch from '@/queries/getNotesBySearch';
 import { env } from 'process';
 /**
  * This test relies on a test db server to validate the query.

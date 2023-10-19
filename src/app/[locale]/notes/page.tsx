@@ -1,5 +1,5 @@
 import React from 'react';
-import getNotesByCursor from '@/db/getNotesByCursor';
+import getNotesByCursor from '@/queries/getNotesByCursor';
 import NotesContainer from '@/components/NotesContainer';
 import NotesContext from '@/contexts/NotesContext';
 import SearchContext from '@/contexts/SearchContext';

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import getNotesByCursor from '@/db/getNotesByCursor';
+import getNotesByCursor from '@/queries/getNotesByCursor';
 
 import NotesContext from '@/contexts/NotesContext';
 import NotesContainer from '@/components/NotesContainer';

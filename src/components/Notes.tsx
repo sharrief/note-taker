@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { GetNotesResult } from '@/db/getNotesByCursor';
+import { GetNotesResult } from '@/queries/getNotesByCursor';
 import StarterKit from '@tiptap/starter-kit';
 import { EditorProvider, JSONContent, generateHTML } from '@tiptap/react';
 import { useRouter } from 'next/navigation';

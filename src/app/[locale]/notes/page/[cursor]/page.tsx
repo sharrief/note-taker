@@ -1,7 +1,7 @@
 import React from 'react';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
-import getNotesByCursor from '@/db/getNotesByCursor';
+import getNotesByCursor from '@/queries/getNotesByCursor';
 import NotesContainer from '@/components/NotesContainer';
 import NotesContext from '@/contexts/NotesContext';
 

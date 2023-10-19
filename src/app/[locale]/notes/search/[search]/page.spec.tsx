@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import getNotesBySearch from '@/db/getNotesBySearch';
+import getNotesBySearch from '@/queries/getNotesBySearch';
 import NotesContext from '@/contexts/NotesContext';
 import SearchContext from '@/contexts/SearchContext';
 import NotesContainer from '@/components/NotesContainer';

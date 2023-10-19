@@ -1,4 +1,4 @@
-import getNotesByCursor from '@/db/getNotesByCursor';
+import getNotesByCursor from '@/queries/getNotesByCursor';
 import { createServerContext } from 'react';
 
 /**

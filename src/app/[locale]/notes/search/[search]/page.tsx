@@ -1,5 +1,5 @@
 import React from 'react';
-import getNotesBySearch from '@/db/getNotesBySearch';
+import getNotesBySearch from '@/queries/getNotesBySearch';
 import { z } from 'zod';
 import Alert from '@/components/Alert';
 
