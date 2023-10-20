@@ -54,7 +54,8 @@ You'll need to sign up for an account, then sign in, then you can create your no
     - PGDATABASE=${POSTGRES_DB}
 1. Create an .env var for next-auth to use when encrypting cookies/jwts
     - NEXTAUTH_SECRET
-1. ``cd`` into the project root and run ``npm run dev`` to start the web server using NextJS
+1. Install npm
+1. ``cd`` into the project root and run ``npm i`` to install the dependencies and then ``npm run dev`` to start the web server using NextJS
 1. Open a browser on the machine and navigate to https://localhost:3000 (the default port is 3000)
 
 ---
