@@ -5,6 +5,6 @@ import { signOut } from 'next-auth/react';
 
 export default function SignInOut() {
   return (
-    <button type="button" onClick={() => signOut({ callbackUrl: '/api/auth/signin' })}>Logout</button>
+    <button type="button" onClick={() => signOut({ callbackUrl: '/login' })}>Logout</button>
   );
 }
